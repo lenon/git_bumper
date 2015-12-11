@@ -35,4 +35,12 @@ RSpec.describe GitBumper::BuildTag do
   it { is_expected.to respond_to(:prefix) }
   it { is_expected.to respond_to(:build) }
   it { is_expected.to respond_to(:build=) }
+
+  describe '#increment' do
+    it 'increments the build number' do
+      expect do
+        subject.increment
+      end.to change { subject.to_s }.from('v0').to('v1')
+    end
+  end
 end

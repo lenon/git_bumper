@@ -32,5 +32,10 @@ module GitBumper
     def to_s
       "#{prefix}#{build}"
     end
+
+    # Increments the build number.
+    def increment(*)
+      @build += 1
+    end
   end
 end

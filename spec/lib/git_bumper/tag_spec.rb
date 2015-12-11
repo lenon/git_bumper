@@ -32,7 +32,7 @@ RSpec.describe GitBumper::Tag do
     end
   end
 
-  subject { described_class.new('v', 0, 0, 0) }
+  subject { described_class.new('v', 0, 0, 1) }
 
   it { is_expected.to respond_to(:prefix) }
   it { is_expected.to respond_to(:major) }
@@ -41,4 +41,30 @@ RSpec.describe GitBumper::Tag do
   it { is_expected.to respond_to(:minor=) }
   it { is_expected.to respond_to(:patch) }
   it { is_expected.to respond_to(:patch=) }
+
+  describe '#increment' do
+    context 'major' do
+      it 'increments the major version' do
+        expect do
+          subject.increment(:major)
+        end.to change { subject.to_s }.from('v0.0.1').to('v1.0.1')
+      end
+    end
+
+    context 'minor' do
+      it 'increments the minor version' do
+        expect do
+          subject.increment(:minor)
+        end.to change { subject.to_s }.from('v0.0.1').to('v0.1.1')
+      end
+    end
+
+    context 'patch' do
+      it 'increments the patch version' do
+        expect do
+          subject.increment(:patch)
+        end.to change { subject.to_s }.from('v0.0.1').to('v0.0.2')
+      end
+    end
+  end
 end

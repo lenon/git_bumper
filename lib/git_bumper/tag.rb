@@ -38,5 +38,17 @@ module GitBumper
     def to_s
       "#{prefix}#{major}.#{minor}.#{patch}"
     end
+
+    # Increments a part of the version.
+    def increment(part)
+      case part
+      when :major
+        @major += 1
+      when :minor
+        @minor += 1
+      when :patch
+        @patch += 1
+      end
+    end
   end
 end
