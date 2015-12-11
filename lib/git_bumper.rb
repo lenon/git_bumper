@@ -1,5 +1,9 @@
 require 'git_bumper/version'
 
 module GitBumper
-  # Your code goes here...
+  module_function
+
+  def git_repo?
+    system('git rev-parse --is-inside-work-tree >/dev/null 2>&1')
+  end
 end
