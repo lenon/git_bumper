@@ -17,7 +17,7 @@ RSpec.describe GitBumper::BuildTag do
         %w(v0 v123).each do |valid_tag|
           tag = subject.parse(valid_tag)
 
-          expect(tag).to be_kind_of(GitBumper::BuildTag)
+          expect(tag).to be_kind_of(described_class)
           expect(tag.to_s).to eql(valid_tag)
         end
       end

@@ -32,14 +32,14 @@ RSpec.describe GitBumper::Git do
 
   describe '.greatest_tag' do
     around do |example|
-      %x(git init test)
+      `git init test`
 
       Dir.chdir('test') do
-        %x(git config user.email "test@example.com")
-        %x(git config user.name "test user")
-        %x(touch a.txt)
-        %x(git add a.txt)
-        %x(git commit -m foo)
+        `git config user.email "test@example.com"`
+        `git config user.name "test user"`
+        `touch a.txt`
+        `git add a.txt`
+        `git commit -m foo`
 
         example.run
       end
@@ -53,8 +53,8 @@ RSpec.describe GitBumper::Git do
 
     context 'when an lightweight tag is the greatest' do
       before do
-        %x(git tag v0.0.1 -m "foo bar")
-        %x(git tag v0.0.2)
+        `git tag v0.0.1 -m "foo bar"`
+        `git tag v0.0.2`
       end
 
       it 'returns this tag' do
@@ -64,8 +64,8 @@ RSpec.describe GitBumper::Git do
 
     context 'when an annotated tag is the greatest' do
       before do
-        %x(git tag v0.0.1)
-        %x(git tag v0.0.2 -m "foo bar")
+        `git tag v0.0.1`
+        `git tag v0.0.2 -m "foo bar"`
       end
 
       it 'returns this tag' do
@@ -75,10 +75,10 @@ RSpec.describe GitBumper::Git do
 
     context 'when the chronological order is not respected' do
       before do
-        %x(git tag v0.0.1)
-        %x(git tag v0.0.3)
-        %x(git tag v0.0.4)
-        %x(git tag v0.0.2)
+        `git tag v0.0.1`
+        `git tag v0.0.3`
+        `git tag v0.0.4`
+        `git tag v0.0.2`
       end
 
       it 'returns the greatest version' do
@@ -88,10 +88,10 @@ RSpec.describe GitBumper::Git do
 
     context 'with a custom prefix' do
       before do
-        %x(git tag a0.0.1)
-        %x(git tag b0.0.1)
-        %x(git tag b0.0.2)
-        %x(git tag c0.0.3)
+        `git tag a0.0.1`
+        `git tag b0.0.1`
+        `git tag b0.0.2`
+        `git tag c0.0.3`
       end
 
       it 'returns the greatest version with the prefix' do
@@ -101,8 +101,8 @@ RSpec.describe GitBumper::Git do
 
     context 'with no tags for a prefix' do
       before do
-        %x(git tag b0.0.1)
-        %x(git tag b0.0.2)
+        `git tag b0.0.1`
+        `git tag b0.0.2`
       end
 
       it 'return false' do
@@ -112,9 +112,9 @@ RSpec.describe GitBumper::Git do
 
     context 'when a tag has not a correct version format' do
       before do
-        %x(git tag v0.0.1)
-        %x(git tag v0.0.2)
-        %x(git tag v0Foobar)
+        `git tag v0.0.1`
+        `git tag v0.0.2`
+        `git tag v0Foobar`
       end
 
       it 'ignores that tag' do
@@ -125,10 +125,10 @@ RSpec.describe GitBumper::Git do
     context 'build tags' do
       context 'when the chronological order is not respected' do
         before do
-          %x(git tag v1)
-          %x(git tag v3)
-          %x(git tag v4)
-          %x(git tag v2)
+          `git tag v1`
+          `git tag v3`
+          `git tag v4`
+          `git tag v2`
         end
 
         it 'returns the greatest version' do
@@ -139,10 +139,10 @@ RSpec.describe GitBumper::Git do
 
       context 'with a custom prefix' do
         before do
-          %x(git tag a1)
-          %x(git tag b1)
-          %x(git tag b2)
-          %x(git tag c3)
+          `git tag a1`
+          `git tag b1`
+          `git tag b2`
+          `git tag c3`
         end
 
         it 'returns the greatest version with the prefix' do
