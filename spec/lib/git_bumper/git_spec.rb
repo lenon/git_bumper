@@ -35,6 +35,8 @@ RSpec.describe GitBumper::Git do
       %x(git init test)
 
       Dir.chdir('test') do
+        %x(git config user.email "test@example.com")
+        %x(git config user.name "test user")
         %x(touch a.txt)
         %x(git add a.txt)
         %x(git commit -m foo)
