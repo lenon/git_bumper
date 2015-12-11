@@ -9,8 +9,8 @@ Gem::Specification.new do |spec|
   spec.authors       = ['Lenon Marcel']
   spec.email         = ['lenon.marcel@gmail.com']
 
-  spec.summary       = ''
-  spec.description   = ''
+  spec.summary       = 'A CLI utility to bump git tags.'
+  spec.description   = 'A CLI utility to bump git tags.'
   spec.homepage      = 'https://github.com/lenon/git_bumper'
   spec.license       = 'MIT'
 
