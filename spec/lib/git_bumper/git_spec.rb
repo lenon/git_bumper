@@ -132,7 +132,7 @@ RSpec.describe GitBumper::Git do
         end
 
         it 'returns the greatest version' do
-          tag = subject.greatest_tag(tag_class: GitBumper::BuildTag)
+          tag = subject.greatest_tag(klass: GitBumper::BuildTag)
           expect(tag.to_s).to eql('v4')
         end
       end
@@ -147,7 +147,7 @@ RSpec.describe GitBumper::Git do
 
         it 'returns the greatest version with the prefix' do
           tag = subject.greatest_tag(prefix: 'b',
-                                     tag_class: GitBumper::BuildTag)
+                                     klass: GitBumper::BuildTag)
           expect(tag.to_s).to eql('b2')
         end
       end

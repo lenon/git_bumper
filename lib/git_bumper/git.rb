@@ -16,11 +16,11 @@ module GitBumper
     end
 
     # Returns the greatest tag.
-    def greatest_tag(prefix: 'v', tag_class: Tag)
+    def greatest_tag(prefix: 'v', klass: Tag)
       output = `git tag --list --sort=-v:refname "#{prefix}[0-9]*" 2> /dev/null`
 
       tags = output.split.collect do |tag|
-        tag_class.parse(tag)
+        klass.parse(tag)
       end
 
       tags.find do |tag|
