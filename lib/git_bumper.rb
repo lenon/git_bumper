@@ -1,4 +1,5 @@
 require 'git_bumper/version'
+require 'git_bumper/tag'
 
 module GitBumper
   module_function
