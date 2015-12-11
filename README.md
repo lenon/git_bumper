@@ -1,5 +1,9 @@
 # GitBumper
 
+[![Build Status][travis-badge]][travis-build]
+[![Code Climate][cc-badge]][cc-details]
+[![Test Coverage][cc-cov-badge]][cc-cov-details]
+
 This gem provides a command-line utility to increment git tags.
 
 ## Installation
@@ -45,3 +49,10 @@ the [Contributor Covenant](contributor-covenant.org) code of conduct.
 
 The gem is available as open source under the terms of the
 [MIT License](http://opensource.org/licenses/MIT).
+
+[travis-badge]: https://travis-ci.org/lenon/git_bumper.svg?branch=master
+[travis-build]: https://travis-ci.org/lenon/git_bumper
+[cc-badge]: https://codeclimate.com/github/lenon/git_bumper/badges/gpa.svg
+[cc-details]: https://codeclimate.com/github/lenon/git_bumper
+[cc-cov-badge]: https://codeclimate.com/github/lenon/git_bumper/badges/coverage.svg
+[cc-cov-details]: https://codeclimate.com/github/lenon/git_bumper/coverage
