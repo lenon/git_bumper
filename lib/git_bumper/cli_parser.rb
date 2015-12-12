@@ -10,9 +10,9 @@ module GitBumper
     def initialize(argv)
       @argv = argv
       @parser = OptionParser.new
-      @options = OpenStruct.new(klass: GitBumper::Tag,
-                                prefix: 'v',
-                                increment: :patch)
+      @options = { klass: GitBumper::Tag,
+                   prefix: 'v',
+                   increment: :patch }
     end
 
     def parse
@@ -20,16 +20,16 @@ module GitBumper
 
       @parser
         .on('-b', '--build', 'Use build tags') do
-          options.klass = GitBumper::BuildTag
+          options[:klass] = GitBumper::BuildTag
         end
         .on('-p', '--prefix [PREFIX]', 'Set a prefix') do |prefix|
-          options.prefix = prefix
+          options[:prefix] = prefix
         end
         .on('--major', 'Increments the major version') do
-          options.increment = :major
+          options[:increment] = :major
         end
         .on('--minor', 'Increments the minor version') do
-          options.increment = :minor
+          options[:increment] = :minor
         end
         .on('-h', '--help', 'Prints this help') do
           puts @parser

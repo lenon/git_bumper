@@ -6,7 +6,7 @@ RSpec.describe GitBumper::CLIParser do
       parser = described_class.new([])
       parser.parse
 
-      expect(parser.options.to_h).to eql(increment: :patch,
+      expect(parser.options).to eql(increment: :patch,
                                          klass: GitBumper::Tag,
                                          prefix: 'v')
     end
@@ -17,7 +17,7 @@ RSpec.describe GitBumper::CLIParser do
       parser = described_class.new(['--build'])
       parser.parse
 
-      expect(parser.options.to_h).to eql(increment: :patch,
+      expect(parser.options).to eql(increment: :patch,
                                          klass: GitBumper::BuildTag,
                                          prefix: 'v')
     end
@@ -28,7 +28,7 @@ RSpec.describe GitBumper::CLIParser do
       parser = described_class.new(['--prefix=abc'])
       parser.parse
 
-      expect(parser.options.to_h).to eql(increment: :patch,
+      expect(parser.options).to eql(increment: :patch,
                                          klass: GitBumper::Tag,
                                          prefix: 'abc')
     end
@@ -39,7 +39,7 @@ RSpec.describe GitBumper::CLIParser do
       parser = described_class.new(['--major'])
       parser.parse
 
-      expect(parser.options.to_h).to eql(increment: :major,
+      expect(parser.options).to eql(increment: :major,
                                          klass: GitBumper::Tag,
                                          prefix: 'v')
     end
@@ -50,7 +50,7 @@ RSpec.describe GitBumper::CLIParser do
       parser = described_class.new(['--minor'])
       parser.parse
 
-      expect(parser.options.to_h).to eql(increment: :minor,
+      expect(parser.options).to eql(increment: :minor,
                                          klass: GitBumper::Tag,
                                          prefix: 'v')
     end
