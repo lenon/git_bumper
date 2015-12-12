@@ -174,4 +174,13 @@ RSpec.describe GitBumper::Git do
       expect(`git tag`.strip).to eql('v0.0.1')
     end
   end
+
+  describe '#push_tag' do
+    it 'pushes the tag to origin' do
+      expect_any_instance_of(Kernel)
+        .to receive(:`)
+        .with('git push origin v0.0.1')
+      subject.push_tag(GitBumper::Tag.new('v', 0, 0, 1))
+    end
+  end
 end

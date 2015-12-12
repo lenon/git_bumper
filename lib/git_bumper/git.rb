@@ -32,5 +32,10 @@ module GitBumper
     def create_tag(tag)
       `git tag #{tag}`
     end
+
+    # Pushes a tag to origin.
+    def push_tag(tag)
+      `git push origin #{tag}`
+    end
   end
 end
