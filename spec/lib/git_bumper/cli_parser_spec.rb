@@ -61,7 +61,10 @@ RSpec.describe GitBumper::CLIParser do
       parser = described_class.new(['--help'])
 
       expect do
-        parser.parse
+        begin
+          parser.parse
+        rescue SystemExit
+        end
       end.to output(/Usage: git bump \[options\]/).to_stdout
     end
   end
