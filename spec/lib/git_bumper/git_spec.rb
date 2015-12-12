@@ -153,4 +153,25 @@ RSpec.describe GitBumper::Git do
       end
     end
   end
+
+  describe '#create_tag' do
+    around do |example|
+      `git init test`
+
+      Dir.chdir('test') do
+        `git config user.email "test@example.com"`
+        `git config user.name "test user"`
+        `touch a.txt`
+        `git add a.txt`
+        `git commit -m foo`
+
+        example.run
+      end
+    end
+
+    it 'creates a new git tag' do
+      subject.create_tag(GitBumper::Tag.new('v', 0, 0, 1))
+      expect(`git tag`.strip).to eql('v0.0.1')
+    end
+  end
 end

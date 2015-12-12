@@ -27,5 +27,10 @@ module GitBumper
         tag
       end || false
     end
+
+    # Create a new git tag.
+    def create_tag(tag)
+      `git tag #{tag}`
+    end
   end
 end
