@@ -10,7 +10,11 @@ module GitBumper
 
   def run
     parser = CLIParser.new(ARGV)
-    parser.parse
-    CLI.new(parser.options).run
+    abort unless parser.parse
+
+    cli = CLI.new(parser.options)
+    cli.run
+
+    abort cli.error_msg if cli.error?
   end
 end

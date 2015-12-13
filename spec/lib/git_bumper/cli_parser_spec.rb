@@ -57,14 +57,15 @@ RSpec.describe GitBumper::CLIParser do
   end
 
   context 'passing --help' do
-    it 'prints the help message' do
-      parser = described_class.new(['--help'])
+    subject { described_class.new(['--help']) }
 
+    it 'returns false' do
+      expect(subject.parse).to be false
+    end
+
+    it 'prints the help message' do
       expect do
-        begin
-          parser.parse
-        rescue SystemExit
-        end
+        subject.parse
       end.to output(/Usage: git bump \[options\]/).to_stdout
     end
   end

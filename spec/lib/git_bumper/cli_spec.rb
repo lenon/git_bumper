@@ -32,15 +32,13 @@ RSpec.describe GitBumper::CLI do
   end
 
   describe 'no tag present' do
-    it 'exists with an error' do
-      subject = described_class.new(options)
+    subject { described_class.new(options) }
 
-      expect do
-        begin
-          subject.run
-        rescue SystemExit
-        end
-      end.to output(/No tags found/).to_stderr
+    it 'sets the exit message' do
+      subject.run
+
+      expect(subject.error_msg).to eql('No tags found.')
+      expect(subject.error?).to be true
     end
   end
 

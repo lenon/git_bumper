@@ -33,7 +33,7 @@ module GitBumper
         end
         .on('-h', '--help', 'Prints this help') do
           puts @parser
-          exit
+          return false
         end
 
       @parser.parse!(@argv)
