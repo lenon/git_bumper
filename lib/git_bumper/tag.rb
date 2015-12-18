@@ -50,5 +50,9 @@ module GitBumper
         @patch += 1
       end
     end
+
+    def <=>(other)
+      [major, minor, patch] <=> [other.major, other.minor, other.patch]
+    end
   end
 end

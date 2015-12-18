@@ -67,4 +67,27 @@ RSpec.describe GitBumper::Tag do
       end
     end
   end
+
+  describe '#<=>' do
+    context 'other tag is greater' do
+      it 'returns -1' do
+        other = described_class.new('v', 0, 0, 2)
+        expect(subject <=> other).to be(-1)
+      end
+    end
+
+    context 'other tag is equal' do
+      it 'returns 0' do
+        other = described_class.new('v', 0, 0, 1)
+        expect(subject <=> other).to be(0)
+      end
+    end
+
+    context 'other tag is lower' do
+      it 'returns 1' do
+        other = described_class.new('v', 0, 0, 0)
+        expect(subject <=> other).to be(1)
+      end
+    end
+  end
 end
