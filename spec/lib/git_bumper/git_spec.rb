@@ -1,16 +1,9 @@
 require 'spec_helper'
-require 'tmpdir'
 
 RSpec.describe GitBumper::Git do
-  subject { described_class }
+  use_temporary_cwd
 
-  around do |example|
-    Dir.mktmpdir do |dir|
-      Dir.chdir(dir) do
-        example.run
-      end
-    end
-  end
+  subject { described_class }
 
   describe '.repo?' do
     context 'not a git repo' do
@@ -21,7 +14,7 @@ RSpec.describe GitBumper::Git do
 
     context 'inside a git repo' do
       it 'returns true' do
-        system('git init test >/dev/null 2>&1')
+        `git init test >/dev/null 2>&1`
 
         Dir.chdir('test') do
           expect(subject.repo?).to be true
@@ -31,19 +24,7 @@ RSpec.describe GitBumper::Git do
   end
 
   describe '.greatest_tag' do
-    around do |example|
-      `git init test`
-
-      Dir.chdir('test') do
-        `git config user.email "test@example.com"`
-        `git config user.name "test user"`
-        `touch a.txt`
-        `git add a.txt`
-        `git commit -m foo`
-
-        example.run
-      end
-    end
+    setup_basic_git_repo
 
     context 'clean repo' do
       it 'returns false' do
@@ -155,19 +136,7 @@ RSpec.describe GitBumper::Git do
   end
 
   describe '#create_tag' do
-    around do |example|
-      `git init test`
-
-      Dir.chdir('test') do
-        `git config user.email "test@example.com"`
-        `git config user.name "test user"`
-        `touch a.txt`
-        `git add a.txt`
-        `git commit -m foo`
-
-        example.run
-      end
-    end
+    setup_basic_git_repo
 
     it 'creates a new git tag' do
       subject.create_tag(GitBumper::Tag.new('v', 0, 0, 1))
