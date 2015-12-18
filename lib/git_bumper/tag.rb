@@ -1,7 +1,7 @@
 module GitBumper
-  # This object represents a git tag. It expects the following format of tags:
-  #   PREFIX.MAJOR.MINOR.PATCH
-  # It provides some methods to parse and increment version numbers.
+  # This object represents a common tag in the format
+  # PREFIX.MAJOR.MINOR.PATCH (e.g. v1.0.0, v2.1.3, v0.1.0).
+  # It provides some methods to parse, increment and compare tags.
   class Tag
     REGEX = /\A([a-z]+)([0-9]+)\.([0-9]+)\.([0-9]+)\z/i
 
