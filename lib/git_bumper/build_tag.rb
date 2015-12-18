@@ -1,8 +1,7 @@
 module GitBumper
-  # This object represents a git build tag. It expects the following format of
-  # tags:
-  #   PREFIX.BUILD_NUMBER
-  # It provides some methods to parse and increment build numbers.
+  # This object represents a "build" tag. These tags are expected to have the
+  # format PREFIX.BUILD_NUMBER (e.g. v1, v2, a1, a2).
+  # It provides some methods to parse, increment and compare tags.
   class BuildTag
     REGEX = /\A([a-z]+)([0-9]+)\z/i
 
