@@ -36,5 +36,9 @@ module GitBumper
     def increment(*)
       @build += 1
     end
+
+    def <=>(other)
+      build <=> other.build
+    end
   end
 end

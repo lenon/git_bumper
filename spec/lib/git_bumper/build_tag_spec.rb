@@ -30,7 +30,7 @@ RSpec.describe GitBumper::BuildTag do
     end
   end
 
-  subject { described_class.new('v', 0) }
+  subject { described_class.new('v', 1) }
 
   it { is_expected.to respond_to(:prefix) }
   it { is_expected.to respond_to(:build) }
@@ -40,7 +40,30 @@ RSpec.describe GitBumper::BuildTag do
     it 'increments the build number' do
       expect do
         subject.increment
-      end.to change { subject.to_s }.from('v0').to('v1')
+      end.to change { subject.to_s }.from('v1').to('v2')
+    end
+  end
+
+  describe '#<=>' do
+    context 'other tag is greater' do
+      it 'returns -1' do
+        other = described_class.new('v', 2)
+        expect(subject <=> other).to be(-1)
+      end
+    end
+
+    context 'other tag is equal' do
+      it 'returns 0' do
+        other = described_class.new('v', 1)
+        expect(subject <=> other).to be(0)
+      end
+    end
+
+    context 'other tag is lower' do
+      it 'returns 1' do
+        other = described_class.new('v', 0)
+        expect(subject <=> other).to be(1)
+      end
     end
   end
 end
