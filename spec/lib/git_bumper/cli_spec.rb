@@ -31,6 +31,47 @@ RSpec.describe GitBumper::CLI do
     allow(STDIN).to receive(:gets) { 'yes' } # assume yes for every prompt
   end
 
+  context 'confirmation prompt' do
+    before do
+      `git tag v0.1.0`
+      allow(STDIN).to receive(:gets) { input }
+    end
+
+    context 'empty input' do
+      let(:input) { '' }
+
+      it 'creates a greater tag' do
+        subject = described_class.new(options)
+        subject.run
+
+        expect(`git tag`.split).to eql(%w(v0.1.0 v0.1.1))
+      end
+    end
+
+    context 'input "yes"' do
+      let(:input) { 'yes' }
+
+      it 'creates a greater tag' do
+        subject = described_class.new(options)
+        subject.run
+
+        expect(`git tag`.split).to eql(%w(v0.1.0 v0.1.1))
+      end
+    end
+
+    context 'wrong input' do
+      let(:input) { 'wrong input' }
+      subject { described_class.new(options) }
+
+      it 'sets the exit message' do
+        subject.run
+
+        expect(subject.error_msg).to eql('Aborted.')
+        expect(subject.error?).to be true
+      end
+    end
+  end
+
   describe 'no tag present' do
     subject { described_class.new(options) }
 

@@ -22,7 +22,7 @@ module GitBumper
 
       puts "The old tag is      #{old_tag}"
       puts "The new tag will be #{new_tag}"
-      puts 'Push to origin? (y/N)'
+      puts 'Push to origin? (Y/n)'
 
       return error('Aborted.') unless prompt_yes
 
@@ -42,7 +42,8 @@ module GitBumper
     end
 
     def prompt_yes
-      STDIN.gets.chomp.to_s =~ /y(es)?/i
+      input = STDIN.gets.chomp.to_s
+      input.empty? || input =~ /\Ay(es)?\z/i
     end
 
     def greatest_tag
