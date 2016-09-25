@@ -47,7 +47,7 @@ RSpec.describe GitBumper::Tag do
       it 'increments the major version' do
         expect do
           subject.increment(:major)
-        end.to change { subject.to_s }.from('v0.0.1').to('v1.0.1')
+        end.to change { subject.to_s }.from('v0.0.1').to('v1.0.0')
       end
     end
 
@@ -55,7 +55,7 @@ RSpec.describe GitBumper::Tag do
       it 'increments the minor version' do
         expect do
           subject.increment(:minor)
-        end.to change { subject.to_s }.from('v0.0.1').to('v0.1.1')
+        end.to change { subject.to_s }.from('v0.0.1').to('v0.1.0')
       end
     end
 

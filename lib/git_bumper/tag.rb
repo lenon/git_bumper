@@ -44,8 +44,11 @@ module GitBumper
       case part
       when :major
         @major += 1
+        @minor = 0
+        @patch = 0
       when :minor
         @minor += 1
+        @patch = 0
       when :patch
         @patch += 1
       end
