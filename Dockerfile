@@ -1,5 +1,11 @@
 FROM ruby:latest
-ADD . /code
+
+COPY lib/git_bumper/version.rb /code/lib/git_bumper/
+COPY Gemfile git_bumper.gemspec /code/
+
 WORKDIR /code
+
+RUN gem install bundler
 RUN bundle install
-CMD bundle exec rspec
+
+COPY . /code
