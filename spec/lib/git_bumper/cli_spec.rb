@@ -3,7 +3,7 @@ require 'spec_helper'
 RSpec.describe GitBumper::CLI do
   let(:options) do
     {
-      klass: GitBumper::Strategies::SemanticVersion,
+      strategy: GitBumper::Strategies::SemanticVersion,
       prefix: 'v',
       increment: :patch
     }
@@ -102,7 +102,9 @@ RSpec.describe GitBumper::CLI do
     end
 
     it 'creates a greater tag' do
-      subject = described_class.new(options.merge(klass: GitBumper::Strategies::Build))
+      subject = described_class.new(options.merge({
+        strategy: GitBumper::Strategies::Build
+      }))
       subject.run
 
       expect(`git tag`.split).to eql(%w(v1 v2))

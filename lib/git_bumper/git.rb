@@ -16,12 +16,12 @@ module GitBumper
     end
 
     # Returns the greatest tag.
-    def greatest_tag(prefix: 'v', klass: Strategies::SemanticVersion)
+    def greatest_tag(prefix: 'v', strategy: Strategies::SemanticVersion)
       output = `git tag --list 2> /dev/null`
 
       tags = output
         .split
-        .map { |t| klass.parse(t) }
+        .map { |t| strategy.parse(t) }
         .select { |t| t && t.prefix == prefix }
         .sort
         .reverse

@@ -6,9 +6,11 @@ RSpec.describe GitBumper::CLIParser do
       parser = described_class.new([])
       parser.parse
 
-      expect(parser.options).to eql(increment: :patch,
-                                    klass: GitBumper::Strategies::SemanticVersion,
-                                    prefix: 'v')
+      expect(parser.options).to eql({
+        increment: :patch,
+        strategy: GitBumper::Strategies::SemanticVersion,
+        prefix: 'v'
+      })
     end
   end
 
@@ -17,9 +19,11 @@ RSpec.describe GitBumper::CLIParser do
       parser = described_class.new(['--build'])
       parser.parse
 
-      expect(parser.options).to eql(increment: :patch,
-                                    klass: GitBumper::Strategies::Build,
-                                    prefix: 'v')
+      expect(parser.options).to eql({
+        increment: :patch,
+        strategy: GitBumper::Strategies::Build,
+        prefix: 'v'
+      })
     end
   end
 
@@ -28,9 +32,11 @@ RSpec.describe GitBumper::CLIParser do
       parser = described_class.new(['--prefix=abc'])
       parser.parse
 
-      expect(parser.options).to eql(increment: :patch,
-                                    klass: GitBumper::Strategies::SemanticVersion,
-                                    prefix: 'abc')
+      expect(parser.options).to eql({
+        increment: :patch,
+        strategy: GitBumper::Strategies::SemanticVersion,
+        prefix: 'abc'
+      })
     end
   end
 
@@ -39,9 +45,11 @@ RSpec.describe GitBumper::CLIParser do
       parser = described_class.new(['--major'])
       parser.parse
 
-      expect(parser.options).to eql(increment: :major,
-                                    klass: GitBumper::Strategies::SemanticVersion,
-                                    prefix: 'v')
+      expect(parser.options).to eql({
+        increment: :major,
+        strategy: GitBumper::Strategies::SemanticVersion,
+        prefix: 'v'
+      })
     end
   end
 
@@ -50,9 +58,11 @@ RSpec.describe GitBumper::CLIParser do
       parser = described_class.new(['--minor'])
       parser.parse
 
-      expect(parser.options).to eql(increment: :minor,
-                                    klass: GitBumper::Strategies::SemanticVersion,
-                                    prefix: 'v')
+      expect(parser.options).to eql({
+        increment: :minor,
+        strategy: GitBumper::Strategies::SemanticVersion,
+        prefix: 'v'
+      })
     end
   end
 

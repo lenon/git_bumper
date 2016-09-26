@@ -47,7 +47,7 @@ module GitBumper
     end
 
     def greatest_tag
-      Git.greatest_tag(klass: @options.fetch(:klass),
+      Git.greatest_tag(strategy: @options.fetch(:strategy),
                        prefix: @options.fetch(:prefix))
     end
   end
