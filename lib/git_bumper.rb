@@ -6,9 +6,7 @@ require 'git_bumper/cli_parser'
 require 'git_bumper/cli'
 
 module GitBumper
-  module_function
-
-  def run
+  def self.run
     parser = CLIParser.new(ARGV)
     abort unless parser.parse
 
