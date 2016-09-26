@@ -113,7 +113,7 @@ RSpec.describe GitBumper::Git do
         end
 
         it 'returns the greatest version' do
-          tag = subject.greatest_tag(klass: GitBumper::BuildTag)
+          tag = subject.greatest_tag(klass: GitBumper::Strategies::Build)
           expect(tag.to_s).to eql('v4')
         end
       end
@@ -128,7 +128,7 @@ RSpec.describe GitBumper::Git do
 
         it 'returns the greatest version with the prefix' do
           tag = subject.greatest_tag(prefix: 'b',
-                                     klass: GitBumper::BuildTag)
+                                     klass: GitBumper::Strategies::Build)
           expect(tag.to_s).to eql('b2')
         end
       end
@@ -139,7 +139,7 @@ RSpec.describe GitBumper::Git do
     setup_basic_git_repo
 
     it 'creates a new git tag' do
-      subject.create_tag(GitBumper::Tag.new('v', 0, 0, 1))
+      subject.create_tag(GitBumper::Strategies::SemanticVersion.new('v', 0, 0, 1))
       expect(`git tag`.strip).to eql('v0.0.1')
     end
   end
@@ -149,7 +149,7 @@ RSpec.describe GitBumper::Git do
       expect_any_instance_of(Kernel)
         .to receive(:`)
         .with('git push origin v0.0.1')
-      subject.push_tag(GitBumper::Tag.new('v', 0, 0, 1))
+      subject.push_tag(GitBumper::Strategies::SemanticVersion.new('v', 0, 0, 1))
     end
   end
 end

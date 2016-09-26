@@ -7,7 +7,7 @@ RSpec.describe GitBumper::CLIParser do
       parser.parse
 
       expect(parser.options).to eql(increment: :patch,
-                                    klass: GitBumper::Tag,
+                                    klass: GitBumper::Strategies::SemanticVersion,
                                     prefix: 'v')
     end
   end
@@ -18,7 +18,7 @@ RSpec.describe GitBumper::CLIParser do
       parser.parse
 
       expect(parser.options).to eql(increment: :patch,
-                                    klass: GitBumper::BuildTag,
+                                    klass: GitBumper::Strategies::Build,
                                     prefix: 'v')
     end
   end
@@ -29,7 +29,7 @@ RSpec.describe GitBumper::CLIParser do
       parser.parse
 
       expect(parser.options).to eql(increment: :patch,
-                                    klass: GitBumper::Tag,
+                                    klass: GitBumper::Strategies::SemanticVersion,
                                     prefix: 'abc')
     end
   end
@@ -40,7 +40,7 @@ RSpec.describe GitBumper::CLIParser do
       parser.parse
 
       expect(parser.options).to eql(increment: :major,
-                                    klass: GitBumper::Tag,
+                                    klass: GitBumper::Strategies::SemanticVersion,
                                     prefix: 'v')
     end
   end
@@ -51,7 +51,7 @@ RSpec.describe GitBumper::CLIParser do
       parser.parse
 
       expect(parser.options).to eql(increment: :minor,
-                                    klass: GitBumper::Tag,
+                                    klass: GitBumper::Strategies::SemanticVersion,
                                     prefix: 'v')
     end
   end

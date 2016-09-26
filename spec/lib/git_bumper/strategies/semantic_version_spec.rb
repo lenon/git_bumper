@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-RSpec.describe GitBumper::Tag do
+RSpec.describe GitBumper::Strategies::SemanticVersion do
   describe '.parse' do
     subject { described_class }
 

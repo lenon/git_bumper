@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-RSpec.describe GitBumper::BuildTag do
+RSpec.describe GitBumper::Strategies::Build do
   describe '.parse' do
     subject { described_class }
 

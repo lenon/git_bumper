@@ -10,7 +10,7 @@ module GitBumper
     def initialize(argv)
       @argv = argv
       @parser = OptionParser.new
-      @options = { klass: GitBumper::Tag,
+      @options = { klass: GitBumper::Strategies::SemanticVersion,
                    prefix: 'v',
                    increment: :patch }
     end
@@ -20,7 +20,7 @@ module GitBumper
 
       @parser
         .on('-b', '--build', 'Use build tags') do
-          options[:klass] = GitBumper::BuildTag
+          options[:klass] = GitBumper::Strategies::Build
         end
         .on('-p', '--prefix [PREFIX]', 'Set a prefix') do |prefix|
           options[:prefix] = prefix

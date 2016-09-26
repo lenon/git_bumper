@@ -16,7 +16,7 @@ module GitBumper
     end
 
     # Returns the greatest tag.
-    def greatest_tag(prefix: 'v', klass: Tag)
+    def greatest_tag(prefix: 'v', klass: Strategies::SemanticVersion)
       output = `git tag --list 2> /dev/null`
 
       tags = output
