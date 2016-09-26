@@ -9,7 +9,8 @@ RSpec.describe GitBumper::CLIParser do
       expect(parser.options).to eql({
         increment: :patch,
         strategy: GitBumper::Strategies::SemanticVersion,
-        prefix: 'v'
+        prefix: 'v',
+        help: false
       })
     end
   end
@@ -22,7 +23,8 @@ RSpec.describe GitBumper::CLIParser do
       expect(parser.options).to eql({
         increment: :patch,
         strategy: GitBumper::Strategies::Build,
-        prefix: 'v'
+        prefix: 'v',
+        help: false
       })
     end
   end
@@ -35,7 +37,8 @@ RSpec.describe GitBumper::CLIParser do
       expect(parser.options).to eql({
         increment: :patch,
         strategy: GitBumper::Strategies::SemanticVersion,
-        prefix: 'abc'
+        prefix: 'abc',
+        help: false
       })
     end
   end
@@ -48,7 +51,8 @@ RSpec.describe GitBumper::CLIParser do
       expect(parser.options).to eql({
         increment: :major,
         strategy: GitBumper::Strategies::SemanticVersion,
-        prefix: 'v'
+        prefix: 'v',
+        help: false
       })
     end
   end
@@ -61,22 +65,18 @@ RSpec.describe GitBumper::CLIParser do
       expect(parser.options).to eql({
         increment: :minor,
         strategy: GitBumper::Strategies::SemanticVersion,
-        prefix: 'v'
+        prefix: 'v',
+        help: false
       })
     end
   end
 
   context 'passing --help' do
-    subject { described_class.new(['--help']) }
+    it 'sets help option to true' do
+      parser = described_class.new(['--help'])
+      parser.parse
 
-    it 'returns false' do
-      expect(subject.parse).to be false
-    end
-
-    it 'prints the help message' do
-      expect do
-        subject.parse
-      end.to output(/Usage: git bump \[options\]/).to_stdout
+      expect(parser.options.fetch(:help)).to be true
     end
   end
 end

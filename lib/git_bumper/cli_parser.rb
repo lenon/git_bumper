@@ -13,7 +13,8 @@ module GitBumper
       @options = {
         strategy: Strategies::SemanticVersion,
         prefix: 'v',
-        increment: :patch
+        increment: :patch,
+        help: false
       }
     end
 
@@ -34,8 +35,7 @@ module GitBumper
           @options[:increment] = :minor
         end
         .on('-h', '--help', 'Prints this help') do
-          puts @parser
-          return false
+          @options[:help] = true
         end
 
       @parser.parse!(@argv)
