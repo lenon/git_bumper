@@ -40,5 +40,9 @@ module GitBumper
 
       @parser.parse!(@argv)
     end
+
+    def to_s
+      @parser.to_s
+    end
   end
 end

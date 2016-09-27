@@ -1,21 +1,41 @@
 module GitBumper
-  # This class receives a Hash of options parsed by CLIParser and executes the
+  # This class receives an array of arguments, parsers it and executes the
   # requested action.
   class CLI
-    attr_reader :error_msg
+    include Git
+    include Utils
 
     # @param [Hash]
-    def initialize(options)
-      @options = options
-      @error = false
-      @error_msg = ''
+    def initialize(args)
+      @parser = CLIParser.new(args)
+      @parser.parse
+      @options = @parser.options
     end
 
     def run
-      Git.fetch_tags
+      if @options.fetch(:help)
+        return print_help
+      end
 
-      old_tag = greatest_tag
-      return error('No tags found.') unless old_tag
+      bump_version
+    end
+
+    private
+
+    def print_help
+      puts @parser
+    end
+
+    def bump_version
+      fetch_tags
+      old_tag = greatest_tag({
+        strategy: @options.fetch(:strategy),
+        prefix: @options.fetch(:prefix)
+      })
+
+      unless old_tag
+        abort('No tags found')
+      end
 
       new_tag = old_tag.clone
       new_tag.increment(@options.fetch(:increment))
@@ -24,31 +44,12 @@ module GitBumper
       puts "The new tag will be #{new_tag}"
       puts 'Push to origin? (Y/n)'
 
-      return error('Aborted.') unless prompt_yes
+      unless confirm_action?
+        abort('Aborted')
+      end
 
-      Git.create_tag(new_tag)
-      Git.push_tag(new_tag)
-    end
-
-    def error?
-      @error
-    end
-
-    private
-
-    def error(msg)
-      @error = true
-      @error_msg = msg
-    end
-
-    def prompt_yes
-      input = STDIN.gets.chomp.to_s
-      input.empty? || input =~ /\Ay(es)?\z/i
-    end
-
-    def greatest_tag
-      Git.greatest_tag(strategy: @options.fetch(:strategy),
-                       prefix: @options.fetch(:prefix))
+      create_tag(new_tag)
+      push_tag(new_tag)
     end
   end
 end

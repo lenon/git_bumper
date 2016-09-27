@@ -8,12 +8,6 @@ require 'git_bumper/cli'
 
 module GitBumper
   def self.run
-    parser = CLIParser.new(ARGV)
-    abort unless parser.parse
-
-    cli = CLI.new(parser.options)
-    cli.run
-
-    abort cli.error_msg if cli.error?
+    CLI.new(ARGV).run
   end
 end

@@ -79,4 +79,10 @@ RSpec.describe GitBumper::CLIParser do
       expect(parser.options.fetch(:help)).to be true
     end
   end
+
+  describe '#to_s' do
+    it 'returns cli menu as a string' do
+      expect(described_class.new([]).to_s).to include('Usage:')
+    end
+  end
 end

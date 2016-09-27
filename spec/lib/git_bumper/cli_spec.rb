@@ -1,14 +1,6 @@
 require 'spec_helper'
 
 RSpec.describe GitBumper::CLI do
-  let(:options) do
-    {
-      strategy: GitBumper::Strategies::SemanticVersion,
-      prefix: 'v',
-      increment: :patch
-    }
-  end
-
   around do |example|
     Dir.mktmpdir do |dir|
       Dir.chdir(dir) do
@@ -21,7 +13,12 @@ RSpec.describe GitBumper::CLI do
           `git add a.txt`
           `git commit -m foo`
 
-          example.run
+          begin
+            example.run
+          rescue SystemExit
+            # CLI can perform some Kernel#abort calls. This rescue is here
+            # to make sure that specs don't exit unexpectedly.
+          end
         end
       end
     end
@@ -31,55 +28,19 @@ RSpec.describe GitBumper::CLI do
     allow(STDIN).to receive(:gets) { 'yes' } # assume yes for every prompt
   end
 
-  context 'confirmation prompt' do
-    before do
-      `git tag v0.1.0`
-      allow(STDIN).to receive(:gets) { input }
-    end
-
-    context 'empty input' do
-      let(:input) { '' }
-
-      it 'creates a greater tag' do
-        subject = described_class.new(options)
-        subject.run
-
-        expect(`git tag`.split).to eql(%w(v0.1.0 v0.1.1))
-      end
-    end
-
-    context 'input "yes"' do
-      let(:input) { 'yes' }
-
-      it 'creates a greater tag' do
-        subject = described_class.new(options)
-        subject.run
-
-        expect(`git tag`.split).to eql(%w(v0.1.0 v0.1.1))
-      end
-    end
-
-    context 'wrong input' do
-      let(:input) { 'wrong input' }
-      subject { described_class.new(options) }
-
-      it 'sets the exit message' do
-        subject.run
-
-        expect(subject.error_msg).to eql('Aborted.')
-        expect(subject.error?).to be true
-      end
+  context 'help menu' do
+    it 'prints the help menu' do
+      expect do
+        described_class.new(['git-bump', '--help']).run
+      end.to output(/Usage: git bump/).to_stdout
     end
   end
 
   describe 'no tag present' do
-    subject { described_class.new(options) }
-
-    it 'sets the exit message' do
-      subject.run
-
-      expect(subject.error_msg).to eql('No tags found.')
-      expect(subject.error?).to be true
+    it 'exits with an error' do
+      expect do
+        described_class.new(['git-bump']).run
+      end.to raise_error(SystemExit)
     end
   end
 
@@ -89,7 +50,7 @@ RSpec.describe GitBumper::CLI do
     end
 
     it 'creates a greater tag' do
-      subject = described_class.new(options)
+      subject = described_class.new(['git-bump'])
       subject.run
 
       expect(`git tag`.split).to eql(%w(v0.1.0 v0.1.1))
@@ -102,9 +63,7 @@ RSpec.describe GitBumper::CLI do
     end
 
     it 'creates a greater tag' do
-      subject = described_class.new(options.merge({
-        strategy: GitBumper::Strategies::Build
-      }))
+      subject = described_class.new(['git-bump'])
       subject.run
 
       expect(`git tag`.split).to eql(%w(v1 v2))
@@ -117,7 +76,7 @@ RSpec.describe GitBumper::CLI do
     end
 
     it 'creates a greater tag' do
-      subject = described_class.new(options.merge(prefix: 'a'))
+      subject = described_class.new(['git-bump', '-p a'])
       subject.run
 
       expect(`git tag`.split).to eql(%w(a1.0.0 a1.0.1))
@@ -130,7 +89,7 @@ RSpec.describe GitBumper::CLI do
     end
 
     it 'creates a greater tag' do
-      subject = described_class.new(options.merge(increment: :major))
+      subject = described_class.new(['git-bump', '--major'])
       subject.run
 
       expect(`git tag`.split).to eql(%w(v1.0.0 v2.0.0))
@@ -143,7 +102,7 @@ RSpec.describe GitBumper::CLI do
     end
 
     it 'creates a greater tag' do
-      subject = described_class.new(options.merge(increment: :minor))
+      subject = described_class.new(['git-bump', '--minor'])
       subject.run
 
       expect(`git tag`.split).to eql(%w(v1.0.0 v1.1.0))
